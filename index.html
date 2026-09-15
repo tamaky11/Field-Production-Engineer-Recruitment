@@ -7,11 +7,21 @@
 <style>
   :root{
     --yellow:#ffc400;
+    --yellow-soft:#ffdb5c;
     --amber:#ff9d00;
     --red:#ff3b30;
+    --red-deep:#e01b12;
+    --crimson:#c81e1e;
+
     --ink:#2a1a10;
     --ink-soft:#5c4433;
     --ink-mute:#8a7565;
+
+    --glass-bg:rgba(255,255,255,.42);
+    --glass-bg-strong:rgba(255,255,255,.6);
+    --glass-border:rgba(255,255,255,.75);
+    --glass-shadow:0 20px 50px rgba(200,60,20,.18);
+
     color-scheme: light;
   }
 
@@ -24,78 +34,101 @@
     min-height:100vh;
     overflow-x:hidden;
     line-height:1.55;
-    background:#ffefd2;
+    background:#fff5e6;
   }
 
-  /* ================= LIGHTWEIGHT BACKGROUND ================= */
   .bg{
     position:fixed;
     inset:0;
     z-index:0;
     overflow:hidden;
-    /* Gradient + radial langsung tanpa blur filter */
     background:
-      radial-gradient(circle at 12% 8%, #fff2a8 0%, transparent 42%),
-      radial-gradient(circle at 88% 92%, #ff8f6b 0%, transparent 46%),
-      linear-gradient(135deg, #fff8e1 0%, #ffe3a8 30%, #ffbf72 60%, #ff7a5c 100%);
+      linear-gradient(135deg, #fff8e1 0%, #ffe9b8 22%, #ffcf7a 45%, #ffab5e 65%, #ff7a5c 82%, #ff4d4d 100%);
   }
+  .bg::before,.bg::after{
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    filter:blur(80px);
+    opacity:.7;
+  }
+  .bg::before{
+    width:60vw;height:60vw;
+    top:-18vw;left:-12vw;
+    background:radial-gradient(circle, #fff2a8 0%, #ffd34d 45%, transparent 70%);
+    animation:float1 16s ease-in-out infinite;
+  }
+  .bg::after{
+    width:55vw;height:55vw;
+    bottom:-20vw;right:-14vw;
+    background:radial-gradient(circle, #ffb36b 0%, #ff5f4d 45%, transparent 72%);
+    animation:float2 19s ease-in-out infinite;
+  }
+  @keyframes float1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(4vw,3vw) scale(1.06)}}
+  @keyframes float2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-4vw,-3vw) scale(1.08)}}
 
-  /* Grid statis (tanpa animasi) */
   .bg .grid{
     position:absolute;
     inset:0;
     background-image:
-      linear-gradient(rgba(255,255,255,.32) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.32) 1px, transparent 1px);
-    background-size:64px 64px;
-    mask-image:radial-gradient(ellipse at 50% 45%, #000 35%, transparent 82%);
-    -webkit-mask-image:radial-gradient(ellipse at 50% 45%, #000 35%, transparent 82%);
+      linear-gradient(rgba(255,255,255,.35) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.35) 1px, transparent 1px);
+    background-size:60px 60px;
+    mask-image:radial-gradient(ellipse at 50% 45%, #000 30%, transparent 80%);
+    -webkit-mask-image:radial-gradient(ellipse at 50% 45%, #000 30%, transparent 80%);
+    animation:gridMove 30s linear infinite;
   }
+  @keyframes gridMove{from{background-position:0 0, 0 0}to{background-position:60px 60px, 60px 60px}}
 
-  /* Gear static (tanpa putaran) */
   .gear{
     position:absolute;
-    opacity:.20;
+    opacity:.30;
+    animation:spin 30s linear infinite;
+    filter:drop-shadow(0 6px 18px rgba(200,60,20,.18));
   }
-  .gear.g1{top:6%; left:5%; width:140px; stroke:#ff8a00}
-  .gear.g2{top:60%; right:4%; width:110px; stroke:#e01b12}
-  .gear.g3{top:34%; left:46%; width:74px; stroke:#ffb300}
+  .gear.g1{top:6%; left:5%; width:150px; stroke:#ff8a00}
+  .gear.g2{top:60%; right:4%; width:120px; stroke:#e01b12; animation-duration:38s; animation-direction:reverse}
+  .gear.g3{top:34%; left:46%; width:80px; stroke:#ffb300; animation-duration:48s}
+  @keyframes spin{to{transform:rotate(360deg)}}
 
-  /* Rig statis */
   .rig{
     position:absolute;
     bottom:-6px;
     right:2%;
-    width:min(400px, 55vw);
-    opacity:.40;
+    width:min(420px, 55vw);
+    opacity:.45;
+    animation:floatRig 9s ease-in-out infinite;
+    filter:drop-shadow(0 8px 20px rgba(180,40,20,.15));
   }
-  .rig.left{left:-3%; right:auto; width:min(300px, 45vw); opacity:.28;}
+  .rig.left{left:-3%; right:auto; width:min(320px, 45vw); opacity:.32; animation-delay:-4s;}
+  @keyframes floatRig{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
 
   .wrap{position:relative; z-index:2; max-width:980px; margin:0 auto; padding:52px 18px 90px;}
 
-  /* ================= HERO ================= */
   .hero{text-align:center;margin-bottom:34px}
 
   .badge{
     display:inline-flex; align-items:center; gap:9px;
     font-size:.72rem; letter-spacing:.22em; font-weight:800;
     text-transform:uppercase; color:#b3200f;
-    background:rgba(255,255,255,.85);
-    border:1px solid rgba(255,255,255,.95);
+    background:rgba(255,255,255,.55);
+    border:1px solid rgba(255,255,255,.85);
     padding:9px 20px; border-radius:999px; margin-bottom:16px;
-    box-shadow:0 6px 18px rgba(200,60,20,.12);
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    box-shadow:0 8px 22px rgba(200,60,20,.15);
   }
   .badge::before{
     content:""; width:8px;height:8px;border-radius:50%;
     background:linear-gradient(135deg, var(--yellow), var(--red));
-    box-shadow:0 0 8px rgba(255,80,30,.7);
+    box-shadow:0 0 10px rgba(255,80,30,.8);
+    animation:pulse 1.8s infinite;
   }
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.7)}}
 
   .hero h1{
     font-size:clamp(1.6rem, 4vw, 2.6rem);
     line-height:1.2; font-weight:900; letter-spacing:-.4px;
-    color:#7a1408;
-    text-shadow:0 1px 8px rgba(255,255,255,.7);
+    color:#7a1408; text-shadow:0 2px 18px rgba(255,255,255,.6);
     margin-bottom:0;
   }
   .hero h1 span{
@@ -106,28 +139,30 @@
   .loc{
     display:inline-flex; align-items:center; gap:8px;
     font-size:.95rem; font-weight:600; color:var(--ink-soft);
-    background:rgba(255,255,255,.85);
-    border:1px solid rgba(255,255,255,.95);
+    background:rgba(255,255,255,.55);
+    border:1px solid rgba(255,255,255,.85);
     padding:9px 20px; border-radius:999px;
-    box-shadow:0 6px 18px rgba(200,60,20,.10);
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    box-shadow:0 8px 22px rgba(200,60,20,.12);
     margin-top:16px;
   }
   .loc strong{color:#c81e1e}
 
-  /* ================= CARD (hanya ini pakai backdrop-filter) ================= */
   .card{
     position:relative;
-    background:rgba(255,255,255,.62);
-    border:1.5px solid rgba(255,255,255,.85);
+    background:var(--glass-bg);
+    border:1.5px solid var(--glass-border);
     border-radius:26px;
     padding:38px clamp(18px, 4vw, 46px) 42px;
-    /* backdrop-filter HANYA di sini, dan dengan nilai lebih kecil */
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
-    box-shadow:
-      0 20px 50px rgba(200,60,20,.16),
-      inset 0 1px 0 rgba(255,255,255,.9);
-    contain: layout paint;
+    backdrop-filter:blur(22px) saturate(160%);
+    -webkit-backdrop-filter:blur(22px) saturate(160%);
+    box-shadow:var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,.9), inset 0 -1px 0 rgba(255,255,255,.35);
+  }
+  .card::before{
+    content:""; position:absolute; top:0;left:0;right:0; height:45%;
+    border-radius:26px 26px 60% 60%;
+    background:linear-gradient(180deg, rgba(255,255,255,.55), transparent);
+    pointer-events:none;
   }
 
   .section-title{
@@ -142,7 +177,6 @@
     background:linear-gradient(90deg, rgba(255,80,30,.55), transparent);
   }
 
-  /* ================= FIELDS ================= */
   .field{margin-bottom:22px;position:relative}
 
   .field .lbl, .field > .lbl{
@@ -155,33 +189,39 @@
   input[type=text],input[type=email],input[type=number],
   input[type=date],select,textarea{
     width:100%; padding:13px 15px; border-radius:14px;
-    background:#fff;
+    background:rgba(255,255,255,.6);
     border:1.5px solid rgba(255,255,255,.9);
     color:var(--ink); font-size:.95rem; font-family:inherit;
-    transition:border-color .18s, box-shadow .18s;
+    transition:border-color .2s, box-shadow .2s, background .2s;
     outline:none;
+    backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
     box-shadow:inset 0 1px 3px rgba(200,60,20,.06);
   }
   textarea{resize:vertical;min-height:84px}
   input::placeholder, textarea::placeholder{color:#b09b8a}
 
   input:focus, select:focus, textarea:focus{
-    border-color:#ff8a1e;
-    box-shadow:0 0 0 4px rgba(255,138,30,.20);
+    border-color:#ff8a1e; background:rgba(255,255,255,.85);
+    box-shadow:0 0 0 4px rgba(255,138,30,.22), inset 0 1px 3px rgba(200,60,20,.06);
   }
+
   select option{background:#fff;color:var(--ink)}
 
   .hint{display:block;font-size:.76rem;color:var(--ink-mute);margin-top:6px}
-  .err{display:block;font-size:.78rem;font-weight:600;color:#c81e1e;margin-top:6px;min-height:0}
+
+  .err{
+    display:block; font-size:.78rem; font-weight:600;
+    color:#c81e1e; margin-top:6px; min-height:0;
+  }
 
   .field.invalid input,.field.invalid select,.field.invalid textarea{
-    border-color:#ff3b30; background:#fff5f4;
-    box-shadow:0 0 0 4px rgba(255,59,48,.16);
+    border-color:#ff3b30; background:rgba(255,240,238,.9);
+    box-shadow:0 0 0 4px rgba(255,59,48,.18);
   }
 
   .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:0 20px}
+  .grid-3{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:0 20px}
 
-  /* ================= PILLS (tanpa backdrop-filter) ================= */
   .pills{display:flex;flex-wrap:wrap;gap:10px}
   .pill{position:relative;cursor:pointer}
   .pill input{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
@@ -189,28 +229,31 @@
   .pill span{
     display:inline-block; padding:10px 22px; border-radius:999px;
     border:1.5px solid rgba(255,255,255,.9);
-    background:#fff;
+    background:rgba(255,255,255,.55);
     font-size:.88rem; font-weight:700; color:var(--ink-soft);
-    transition:background .15s, color .15s, box-shadow .15s;
-    user-select:none;
-    box-shadow:0 3px 10px rgba(200,60,20,.08);
+    transition:.2s; user-select:none;
+    backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+    box-shadow:0 4px 12px rgba(200,60,20,.08);
   }
   .pill:hover span{
-    border-color:#ffb300; color:var(--ink);
+    border-color:#ffb300; background:rgba(255,255,255,.8);
+    color:var(--ink); transform:translateY(-1px);
   }
   .pill input:checked + span{
     background:linear-gradient(135deg, var(--yellow) 0%, var(--amber) 40%, var(--red) 100%);
     border-color:transparent; color:#fff;
-    box-shadow:0 8px 20px rgba(255,90,20,.38);
+    box-shadow:0 10px 24px rgba(255,90,20,.42);
+    text-shadow:0 1px 2px rgba(140,30,0,.28);
   }
+  .pill input:focus-visible + span{box-shadow:0 0 0 4px rgba(255,138,30,.35)}
 
   .other-input{margin-top:12px}
 
-  /* ================= DRIVE BOX ================= */
   .drive-box{
     border:1.5px dashed rgba(255,138,30,.65);
-    background:rgba(255,255,255,.7);
+    background:rgba(255,255,255,.5);
     border-radius:16px; padding:22px; text-align:center;
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
   }
 
   .drive-btn{
@@ -218,10 +261,11 @@
     padding:13px 28px; border-radius:13px;
     background:linear-gradient(135deg, #ffb300 0%, #ff6a00 55%, #e01b12 100%);
     color:#fff; font-weight:800; font-size:.92rem; text-decoration:none;
-    box-shadow:0 10px 24px rgba(255,90,20,.38);
-    transition:transform .15s, box-shadow .15s;
+    box-shadow:0 12px 28px rgba(255,90,20,.42);
+    transition:transform .18s, box-shadow .18s;
+    text-shadow:0 1px 2px rgba(140,30,0,.25);
   }
-  .drive-btn:hover{transform:translateY(-2px); box-shadow:0 14px 30px rgba(255,90,20,.5)}
+  .drive-btn:hover{transform:translateY(-2px); box-shadow:0 16px 34px rgba(255,90,20,.55)}
   .drive-btn svg{width:20px;height:20px;fill:#fff}
 
   .check{
@@ -233,10 +277,10 @@
     appearance:none; -webkit-appearance:none;
     min-width:20px; width:20px;height:20px;
     margin-top:1px; border-radius:7px;
-    border:1.5px solid #d9c9b8;
-    background:#fff; cursor:pointer;
-    transition:background .15s, border-color .15s;
-    position:relative;
+    border:1.5px solid rgba(255,255,255,.95);
+    background:rgba(255,255,255,.65); cursor:pointer;
+    transition:.2s; position:relative;
+    box-shadow:0 3px 8px rgba(200,60,20,.1);
   }
   .check input:checked{
     background:linear-gradient(135deg, var(--yellow), var(--red));
@@ -248,7 +292,6 @@
     border-width:0 2.5px 2.5px 0; transform:rotate(45deg);
   }
 
-  /* ================= SUBMIT ================= */
   .submit-wrap{margin-top:38px;text-align:center}
 
   .submit-btn{
@@ -260,19 +303,29 @@
     letter-spacing:.06em; text-transform:uppercase;
     color:#fff; cursor:pointer;
     background:linear-gradient(120deg, #ffc400 0%, #ff8a00 45%, #ff3b30 100%);
-    box-shadow:0 14px 32px rgba(255,80,20,.42);
-    transition:transform .15s, box-shadow .15s;
+    box-shadow:0 18px 40px rgba(255,80,20,.45), inset 0 1px 0 rgba(255,255,255,.5);
+    transition:transform .18s, box-shadow .18s;
     overflow:hidden;
+    text-shadow:0 1px 3px rgba(140,30,0,.32);
   }
-  .submit-btn:hover{transform:translateY(-3px); box-shadow:0 20px 44px rgba(255,80,20,.55)}
+  .submit-btn::after{
+    content:""; position:absolute; top:0; left:-120%;
+    width:60%; height:100%;
+    background:linear-gradient(100deg, transparent, rgba(255,255,255,.6), transparent);
+    transform:skewX(-22deg);
+    animation:shine 3.4s infinite;
+  }
+  @keyframes shine{0%{left:-120%}55%{left:140%}100%{left:140%}}
+  .submit-btn:hover{transform:translateY(-3px); box-shadow:0 24px 52px rgba(255,80,20,.6)}
   .submit-btn:active{transform:translateY(0) scale(.99)}
-  .submit-btn:disabled{opacity:.7; cursor:not-allowed; transform:none}
+  .submit-btn:disabled{opacity:.75; cursor:not-allowed; transform:none}
 
   .required-note{
     text-align:center; font-size:.78rem; font-weight:600;
     color:var(--ink-mute); margin-top:16px;
   }
 
+  /* Loading spinner inside button */
   .spinner{
     width:18px;height:18px;
     border:2.5px solid rgba(255,255,255,.4);
@@ -283,13 +336,12 @@
   }
   @keyframes spinBtn{to{transform:rotate(360deg)}}
 
-  /* ================= MODAL ================= */
   .overlay{
     position:fixed; inset:0; z-index:50;
     display:none; align-items:center; justify-content:center;
     padding:22px;
-    background:rgba(120,30,0,.42);
-    /* HAPUS backdrop-filter di modal overlay untuk performa */
+    background:rgba(120,30,0,.32);
+    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
   }
   .overlay.show{display:flex;animation:fadeIn .3s ease}
   @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -297,10 +349,12 @@
   .modal{
     position:relative; max-width:560px; width:100%; text-align:center;
     padding:48px clamp(22px, 5vw, 50px); border-radius:26px;
-    background:#fff;
+    background:rgba(255,255,255,.7);
     border:1.5px solid rgba(255,255,255,.95);
-    box-shadow:0 40px 90px rgba(180,40,10,.4);
-    animation:popIn .4s cubic-bezier(.2,.9,.3,1.3);
+    backdrop-filter:blur(28px) saturate(160%);
+    -webkit-backdrop-filter:blur(28px) saturate(160%);
+    box-shadow:0 40px 90px rgba(180,40,10,.35), inset 0 1px 0 rgba(255,255,255,.9);
+    animation:popIn .45s cubic-bezier(.2,.9,.3,1.3);
   }
   @keyframes popIn{from{opacity:0; transform:translateY(28px) scale(.94)}to{opacity:1; transform:translateY(0) scale(1)}}
 
@@ -309,7 +363,12 @@
     border-radius:50%; display:flex; align-items:center; justify-content:center;
     background:linear-gradient(135deg, rgba(255,196,0,.35), rgba(255,59,48,.35));
     border:2px solid rgba(255,255,255,.9);
+    animation:glowRing 2s ease-in-out infinite;
     box-shadow:0 12px 30px rgba(255,90,20,.28);
+  }
+  @keyframes glowRing{
+    0%,100%{box-shadow:0 12px 30px rgba(255,90,20,.28), 0 0 0 0 rgba(255,138,30,.4)}
+    50%{box-shadow:0 12px 30px rgba(255,90,20,.28), 0 0 0 18px rgba(255,138,30,0)}
   }
   .check-circle svg{
     width:46px;height:46px; stroke:#e01b12; stroke-width:4;
@@ -334,37 +393,23 @@
 
   .modal .close-btn{
     margin-top:32px; padding:14px 44px; border-radius:13px;
-    border:none;
+    border:1.5px solid rgba(255,255,255,.95);
     background:linear-gradient(135deg, #ffb300, #ff4d1a);
     color:#fff; font-family:inherit; font-weight:800;
     font-size:.9rem; letter-spacing:.08em; text-transform:uppercase;
-    cursor:pointer; transition:.15s;
+    cursor:pointer; transition:.2s;
     box-shadow:0 12px 28px rgba(255,80,20,.4);
+    text-shadow:0 1px 2px rgba(140,30,0,.28);
   }
   .modal .close-btn:hover{transform:translateY(-2px); box-shadow:0 16px 34px rgba(255,80,20,.55)}
 
-  /* Test button */
-  .test-wrap{text-align:center;margin-top:14px}
-  .test-wrap button{
-    padding:8px 20px;border-radius:10px;
-    border:1px dashed #c81e1e;
-    background:rgba(255,255,255,.7);
-    color:#c81e1e;font-weight:700;cursor:pointer;font-size:.78rem;
-  }
-  #testResult{margin-top:10px;font-size:.82rem;font-weight:600}
-
-  /* Hormati preferensi user */
-  @media (prefers-reduced-motion: reduce){
-    *{animation:none !important; transition:none !important;}
-  }
-
   @media (max-width:720px){
     .wrap{padding:34px 13px 70px}
-    .card{padding:28px 18px 32px;border-radius:20px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-    .grid-2{grid-template-columns:1fr;gap:0}
-    .bg .rig{opacity:.22;width:80vw}
+    .card{padding:28px 18px 32px;border-radius:20px}
+    .grid-2, .grid-3{grid-template-columns:1fr;gap:0}
+    .bg .rig{opacity:.28;width:80vw}
     .bg .rig.left{display:none}
-    .gear{opacity:.14}
+    .gear{opacity:.20}
     .pill span{padding:9px 16px;font-size:.83rem}
     .hero h1{font-size:1.4rem}
   }
@@ -636,17 +681,19 @@
   </div>
 </div>
 
-<div class="test-wrap">
-  <button type="button" id="testBtn">🔍 Test Koneksi ke Google Sheet</button>
-  <div id="testResult"></div>
+<div style="text-align:center;margin-top:14px;">
+  <button type="button" id="testBtn" style="padding:8px 20px;border-radius:10px;border:1px dashed #c81e1e;background:rgba(255,255,255,.5);color:#c81e1e;font-weight:700;cursor:pointer;font-size:.78rem;">
+    🔍 Test Koneksi ke Google Sheet
+  </button>
+  <div id="testResult" style="margin-top:10px;font-size:.82rem;font-weight:600;"></div>
 </div>
-
+  
 <script>
 (function(){
   "use strict";
 
   // ==================================================================
-  // >>> GANTI DENGAN URL WEB APP BARU ANDA (setelah redeploy) <<<
+  // >>> GANTI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA <<<
   // ==================================================================
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz3YtbqlfTUTVQ2Vkt4xKlk3rF38HcGh5MTLzt6ywH9-8-fJGiIzzQBVsR2o5oQ3mda/exec';
 
@@ -655,80 +702,171 @@
   const submitBtn = document.getElementById('submitBtn');
   const btnText = document.getElementById('btnText');
 
+    /* ---------- Test koneksi ---------- */
+  document.getElementById('testBtn').addEventListener('click', function(){
+    const res = document.getElementById('testResult');
+    res.style.color = '#8a7565';
+    res.textContent = 'Menguji...';
+
+    fetch(SCRIPT_URL, { method: 'GET', mode: 'no-cors' })
+      .then(function(){
+        res.style.color = '#1a7f37';
+        res.innerHTML = '✅ Endpoint bisa diakses. Kalau data tetap tidak masuk, ' +
+          '<a href="' + SCRIPT_URL + '" target="_blank" style="color:#c81e1e;">buka URL ini</a> ' +
+          'untuk lihat jumlah data terakhir.';
+      })
+      .catch(function(){
+        res.style.color = '#c81e1e';
+        res.textContent = '❌ Endpoint tidak bisa diakses. Cek deployment URL & access = Anyone.';
+      });
+  });
+  
   function fieldOf(el){ return el.closest('.field'); }
-  function markInvalid(f, m){ if(!f) return; f.classList.add('invalid'); const e=f.querySelector('.err'); if(e) e.textContent=m; }
-  function clearErrors(){
-    document.querySelectorAll('.field.invalid').forEach(f=>f.classList.remove('invalid'));
-    document.querySelectorAll('.err').forEach(e=>e.textContent='');
+
+  function markInvalid(fieldEl, msg){
+    if(!fieldEl) return;
+    fieldEl.classList.add('invalid');
+    const err = fieldEl.querySelector('.err');
+    if(err) err.textContent = msg;
   }
-  function radioValue(n){ const el=form.querySelector('input[name="'+n+'"]:checked'); return el?el.value:''; }
+
+  function clearErrors(){
+    document.querySelectorAll('.field.invalid').forEach(f => f.classList.remove('invalid'));
+    document.querySelectorAll('.err').forEach(e => e.textContent = '');
+  }
+
+  function radioValue(name){
+    const el = form.querySelector('input[name="'+name+'"]:checked');
+    return el ? el.value : '';
+  }
 
   function bindOther(radioName, inputId){
     const input = document.getElementById(inputId);
-    form.querySelectorAll('input[name="'+radioName+'"]').forEach(r=>{
-      r.addEventListener('change', ()=>{
+    form.querySelectorAll('input[name="'+radioName+'"]').forEach(function(r){
+      r.addEventListener('change', function(){
         const isOther = radioValue(radioName) === 'Other';
         input.hidden = !isOther;
-        if(isOther) setTimeout(()=>input.focus(), 60);
-        else { input.value=''; const f=fieldOf(input); if(f) f.classList.remove('invalid'); }
+        if(isOther){
+          setTimeout(function(){ input.focus(); }, 60);
+        } else {
+          input.value = '';
+          const f = fieldOf(input);
+          if(f) f.classList.remove('invalid');
+        }
       });
     });
   }
-  bindOther('edu','eduOther');
-  bindOther('lift','liftOther');
 
-  // Salary format
+  bindOther('edu', 'eduOther');
+  bindOther('lift', 'liftOther');
+
+  /* ---------- Salary auto-format ---------- */
   const salary = document.getElementById('salary');
-  salary.addEventListener('input', ()=>{
-    let d = salary.value.replace(/[^0-9]/g,'').replace(/^0+/,'');
-    salary.value = d==='' ? '' : 'Rp ' + d.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  salary.addEventListener('input', function(){
+    let digits = salary.value.replace(/[^0-9]/g, '');
+    digits = digits.replace(/^0+/, '');
+    if(digits === ''){
+      salary.value = '';
+      return;
+    }
+    salary.value = 'Rp ' + digits.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   });
 
+  /* ---------- Validation ---------- */
   function validate(){
-    clearErrors(); let ok = true;
-    const email=document.getElementById('email');
-    if(!email.value.trim()){ markInvalid(fieldOf(email),'Email wajib diisi.'); ok=false; }
-    else if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim())){ markInvalid(fieldOf(email),'Format email tidak valid.'); ok=false; }
+    clearErrors();
+    let ok = true;
 
-    const fn=document.getElementById('fullname');
-    if(!fn.value.trim()){ markInvalid(fieldOf(fn),'Nama wajib diisi.'); ok=false; }
-    else if(fn.value.trim().length<3){ markInvalid(fieldOf(fn),'Nama minimal 3 karakter.'); ok=false; }
-
-    const age=document.getElementById('age'); const av=age.value.trim();
-    if(!av){ markInvalid(fieldOf(age),'Umur wajib diisi.'); ok=false; }
-    else { const n=Number(av); if(!Number.isInteger(n)||n<17||n>65){ markInvalid(fieldOf(age),'Umur 17 - 65.'); ok=false; } }
-
-    const dob=document.getElementById('dob');
-    if(!dob.value){ markInvalid(fieldOf(dob),'Tanggal lahir wajib diisi.'); ok=false; }
-    else if(new Date(dob.value)>new Date()){ markInvalid(fieldOf(dob),'Tidak boleh masa depan.'); ok=false; }
-
-    const pob=document.getElementById('pob'); if(!pob.value){ markInvalid(fieldOf(pob),'Tempat lahir wajib dipilih.'); ok=false; }
-    const addr=document.getElementById('address'); if(!addr.value.trim()){ markInvalid(fieldOf(addr),'Alamat wajib diisi.'); ok=false; }
-    const reg=document.getElementById('regency'); if(!reg.value.trim()){ markInvalid(fieldOf(reg),'Kab/Kota wajib diisi.'); ok=false; }
-    const dp=document.getElementById('domProvince'); if(!dp.value){ markInvalid(fieldOf(dp),'Provinsi wajib dipilih.'); ok=false; }
-    const rel=document.getElementById('religion'); if(!rel.value){ markInvalid(fieldOf(rel),'Agama wajib dipilih.'); ok=false; }
-    if(!radioValue('gender')){ markInvalid(document.querySelector('[data-field="gender"]'),'Gender wajib dipilih.'); ok=false; }
-
-    const ev=radioValue('edu');
-    if(!ev){ markInvalid(document.querySelector('[data-field="edu"]'),'Wajib diisi.'); ok=false; }
-    else if(ev==='Other'){
-      const eo=document.getElementById('eduOther');
-      if(!eo.value.trim()){ markInvalid(document.querySelector('[data-field="edu"]'),'Tuliskan pendidikan Anda.'); ok=false; }
+    const email = document.getElementById('email');
+    const emailVal = email.value.trim();
+    if(!emailVal){
+      markInvalid(fieldOf(email), 'Email wajib diisi.'); ok = false;
+    } else if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailVal)){
+      markInvalid(fieldOf(email), 'Format email tidak valid.'); ok = false;
     }
-    if(!radioValue('exp')){ markInvalid(document.querySelector('[data-field="exp"]'),'Pengalaman wajib dipilih.'); ok=false; }
-    const lv=radioValue('lift');
-    if(!lv){ markInvalid(document.querySelector('[data-field="lift"]'),'Wajib diisi.'); ok=false; }
-    else if(lv==='Other'){
-      const lo=document.getElementById('liftOther');
-      if(!lo.value.trim()){ markInvalid(document.querySelector('[data-field="lift"]'),'Tuliskan pengalaman Anda.'); ok=false; }
+
+    const fullname = document.getElementById('fullname');
+    if(!fullname.value.trim()){
+      markInvalid(fieldOf(fullname), 'Nama wajib diisi.'); ok = false;
+    } else if(fullname.value.trim().length < 3){
+      markInvalid(fieldOf(fullname), 'Nama minimal 3 karakter.'); ok = false;
     }
-    const sv=salary.value.replace(/[^0-9]/g,'');
-    if(!sv||Number(sv)===0){ markInvalid(fieldOf(salary),'Expected salary wajib diisi.'); ok=false; }
-    if(!document.getElementById('cvConfirm').checked){ markInvalid(document.querySelector('[data-field="cv"]'),'Konfirmasi upload CV wajib dicentang.'); ok=false; }
+
+    const age = document.getElementById('age');
+    const ageVal = age.value.trim();
+    if(!ageVal){
+      markInvalid(fieldOf(age), 'Umur wajib diisi.'); ok = false;
+    } else {
+      const n = Number(ageVal);
+      if(!Number.isInteger(n) || n < 17 || n > 65){
+        markInvalid(fieldOf(age), 'Umur harus angka antara 17 - 65.'); ok = false;
+      }
+    }
+
+    const dob = document.getElementById('dob');
+    if(!dob.value){
+      markInvalid(fieldOf(dob), 'Tanggal lahir wajib diisi.'); ok = false;
+    } else if(new Date(dob.value) > new Date()){
+      markInvalid(fieldOf(dob), 'Tanggal lahir tidak boleh di masa depan.'); ok = false;
+    }
+
+    const pob = document.getElementById('pob');
+    if(!pob.value){ markInvalid(fieldOf(pob), 'Tempat lahir wajib dipilih.'); ok = false; }
+
+    const address = document.getElementById('address');
+    if(!address.value.trim()){ markInvalid(fieldOf(address), 'Alamat wajib diisi.'); ok = false; }
+
+    const regency = document.getElementById('regency');
+    if(!regency.value.trim()){ markInvalid(fieldOf(regency), 'Kabupaten/Kota wajib diisi.'); ok = false; }
+
+    const domProvince = document.getElementById('domProvince');
+    if(!domProvince.value){ markInvalid(fieldOf(domProvince), 'Provinsi wajib dipilih.'); ok = false; }
+
+    const religion = document.getElementById('religion');
+    if(!religion.value){ markInvalid(fieldOf(religion), 'Agama wajib dipilih.'); ok = false; }
+
+    if(!radioValue('gender')){
+      markInvalid(document.querySelector('[data-field="gender"]'), 'Gender wajib dipilih.'); ok = false;
+    }
+
+    const eduVal = radioValue('edu');
+    if(!eduVal){
+      markInvalid(document.querySelector('[data-field="edu"]'), 'Pilihan ini wajib diisi.'); ok = false;
+    } else if(eduVal === 'Other'){
+      const eduOther = document.getElementById('eduOther');
+      if(!eduOther.value.trim()){
+        markInvalid(document.querySelector('[data-field="edu"]'), 'Mohon tuliskan pendidikan/jurusan Anda.'); ok = false;
+      }
+    }
+
+    if(!radioValue('exp')){
+      markInvalid(document.querySelector('[data-field="exp"]'), 'Pengalaman kerja wajib dipilih.'); ok = false;
+    }
+
+    const liftVal = radioValue('lift');
+    if(!liftVal){
+      markInvalid(document.querySelector('[data-field="lift"]'), 'Pilihan ini wajib diisi.'); ok = false;
+    } else if(liftVal === 'Other'){
+      const liftOther = document.getElementById('liftOther');
+      if(!liftOther.value.trim()){
+        markInvalid(document.querySelector('[data-field="lift"]'), 'Mohon tuliskan pengalaman Anda.'); ok = false;
+      }
+    }
+
+    const salVal = salary.value.replace(/[^0-9]/g, '');
+    if(!salVal || Number(salVal) === 0){
+      markInvalid(fieldOf(salary), 'Expected salary wajib diisi.'); ok = false;
+    }
+
+    const cvConfirm = document.getElementById('cvConfirm');
+    if(!cvConfirm.checked){
+      markInvalid(document.querySelector('[data-field="cv"]'), 'Konfirmasi upload CV wajib dicentang.'); ok = false;
+    }
 
     return ok;
   }
 
+     /* ---------- Submit handler (fetch no-cors ke Apps Script) ---------- */
   let isSubmitting = false;
 
   form.addEventListener('submit', function(e){
@@ -736,35 +874,44 @@
     if(isSubmitting) return;
 
     if(!validate()){
-      const fi = document.querySelector('.field.invalid');
-      if(fi){
-        fi.scrollIntoView({behavior:'smooth', block:'center'});
-        const f = fi.querySelector('input, select, textarea');
-        if(f) setTimeout(()=>f.focus({preventScroll:true}), 350);
+      const firstInvalid = document.querySelector('.field.invalid');
+      if(firstInvalid){
+        firstInvalid.scrollIntoView({behavior:'smooth', block:'center'});
+        const focusable = firstInvalid.querySelector('input, select, textarea');
+        if(focusable) setTimeout(function(){ focusable.focus({preventScroll:true}); }, 350);
       }
       return;
     }
 
+    // Loading
     isSubmitting = true;
     submitBtn.disabled = true;
     btnText.innerHTML = '<span class="spinner"></span> Sending...';
 
+    // Kumpulkan data
+    const formData = new FormData(form);
     const params = new URLSearchParams();
-    for (const [k,v] of new FormData(form).entries()) params.append(k,v);
+    for (const [key, value] of formData.entries()) {
+      params.append(key, value);
+    }
 
+    // Kirim ke Google Apps Script
     fetch(SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
       body: params.toString()
     })
-    .then(()=>finishSubmit())
-    .catch(err=>{
-      console.error(err);
+    .then(function(){
+      // mode no-cors tidak bisa baca response, anggap sukses
+      finishSubmit();
+    })
+    .catch(function(err){
+      console.error('Submit error:', err);
       isSubmitting = false;
       submitBtn.disabled = false;
       btnText.textContent = 'Submit Application';
-      alert('Gagal mengirim data. Cek koneksi & coba lagi.');
+      alert('Gagal mengirim data. Cek koneksi internet & coba lagi.');
     });
   });
 
@@ -775,34 +922,23 @@
     overlay.classList.add('show');
     document.body.style.overflow = 'hidden';
     form.reset();
+    // Reset "Other" inputs
     document.getElementById('eduOther').hidden = true;
     document.getElementById('liftOther').hidden = true;
   }
 
+  /* ---------- Modal close ---------- */
   window.closeModal = function(){
     overlay.classList.remove('show');
     document.body.style.overflow = '';
   };
-  overlay.addEventListener('click', e=>{ if(e.target===overlay) closeModal(); });
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape' && overlay.classList.contains('show')) closeModal(); });
 
-  /* Test koneksi */
-  document.getElementById('testBtn').addEventListener('click', ()=>{
-    const res = document.getElementById('testResult');
-    res.style.color = '#8a7565';
-    res.textContent = 'Menguji...';
+  overlay.addEventListener('click', function(e){
+    if(e.target === overlay) window.closeModal();
+  });
 
-    // Test GET via image (bisa read content via fetch no-cors tidak bisa, jadi pakai fetch biasa)
-    fetch(SCRIPT_URL, { method: 'GET' })
-      .then(r => r.text())
-      .then(txt => {
-        res.style.color = '#1a7f37';
-        res.innerHTML = '✅ Endpoint aktif. Respon: <em>' + txt.substring(0,120) + '</em>';
-      })
-      .catch(err => {
-        res.style.color = '#c81e1e';
-        res.textContent = '❌ Endpoint error. Cek redeploy URL. Detail: ' + err.message;
-      });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && overlay.classList.contains('show')) window.closeModal();
   });
 
 })();
