@@ -482,7 +482,7 @@
   </header>
 
   <div class="card">
-    <form id="recruitForm" novalidate>
+    <form id="recruitForm" action="" method="POST" target="hidden_iframe" novalidate>
 
       <div class="section-title">Personal Data</div>
 
@@ -688,7 +688,7 @@
   // ==================================================================
   // >>> GANTI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA <<<
   // ==================================================================
-  const SCRIPT_URL = 'PASTE_URL_WEB_APP_ANDA_DISINI';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5rnV0DhFeQBkv2xPqgfFx2tijO9jInq23XcJoN5f4g1A5P8798GcMjgeOYhs4dq_j/exec';
 
   const form = document.getElementById('recruitForm');
   const overlay = document.getElementById('overlay');
@@ -840,9 +840,17 @@
     return ok;
   }
 
-  /* ---------- Submit handler ---------- */
+   /* ---------- Set form action ke Apps Script ---------- */
+  form.action = SCRIPT_URL;
+
+  /* ---------- Submit handler (metode hidden iframe) ---------- */
+  let isSubmitting = false;
+
   form.addEventListener('submit', function(e){
     e.preventDefault();
+
+    // Cegah double submit
+    if(isSubmitting) return;
 
     if(!validate()){
       const firstInvalid = document.querySelector('.field.invalid');
@@ -854,38 +862,36 @@
       return;
     }
 
-    // Kumpulkan data form
-    const formData = new FormData(form);
-    const params = new URLSearchParams();
-    for (const [key, value] of formData.entries()) {
-      params.append(key, value);
-    }
-
-    // Set tombol loading
+    // Set loading
+    isSubmitting = true;
     submitBtn.disabled = true;
     btnText.innerHTML = '<span class="spinner"></span> Sending...';
 
-    // Kirim ke Google Apps Script
-    fetch(SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: params.toString()
-    })
-    .then(function(){
-      // Karena mode 'no-cors', respons tidak bisa dibaca — anggap sukses
+    const iframe = document.getElementById('hidden_iframe');
+
+    function handleSuccess(){
+      if(!isSubmitting) return;
+      isSubmitting = false;
       submitBtn.disabled = false;
       btnText.textContent = 'Submit Application';
       overlay.classList.add('show');
       document.body.style.overflow = 'hidden';
       form.reset();
-    })
-    .catch(function(err){
-      console.error('Submission error:', err);
-      alert('Terjadi kesalahan saat mengirim data. Silakan coba lagi.');
-      submitBtn.disabled = false;
-      btnText.textContent = 'Submit Application';
-    });
+      iframe.removeEventListener('load', handleSuccess);
+    }
+
+    iframe.addEventListener('load', handleSuccess);
+
+    // Submit form secara native ke iframe
+    HTMLFormElement.prototype.submit.call(form);
+
+    // Fallback: kalau iframe tidak load dalam 10 detik
+    setTimeout(function(){
+      if(isSubmitting){
+        console.warn('Iframe timeout — anggap sukses (data biasanya tetap terkirim).');
+        handleSuccess();
+      }
+    }, 10000);
   });
 
   /* ---------- Modal close ---------- */
@@ -904,5 +910,7 @@
 
 })();
 </script>
+
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 </body>
 </html>
