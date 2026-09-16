@@ -220,7 +220,6 @@
   }
 
   .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:0 20px}
-  .grid-3{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:0 20px}
 
   .pills{display:flex;flex-wrap:wrap;gap:10px}
   .pill{position:relative;cursor:pointer}
@@ -245,7 +244,6 @@
     box-shadow:0 10px 24px rgba(255,90,20,.42);
     text-shadow:0 1px 2px rgba(140,30,0,.28);
   }
-  .pill input:focus-visible + span{box-shadow:0 0 0 4px rgba(255,138,30,.35)}
 
   .other-input{margin-top:12px}
 
@@ -259,6 +257,7 @@
   .drive-btn{
     display:inline-flex; align-items:center; gap:11px;
     padding:13px 28px; border-radius:13px;
+    border:none; cursor:pointer;
     background:linear-gradient(135deg, #ffb300 0%, #ff6a00 55%, #e01b12 100%);
     color:#fff; font-weight:800; font-size:.92rem; text-decoration:none;
     box-shadow:0 12px 28px rgba(255,90,20,.42);
@@ -268,28 +267,9 @@
   .drive-btn:hover{transform:translateY(-2px); box-shadow:0 16px 34px rgba(255,90,20,.55)}
   .drive-btn svg{width:20px;height:20px;fill:#fff}
 
-  .check{
-    display:flex; align-items:flex-start; gap:12px; margin-top:18px;
-    cursor:pointer; font-size:.87rem; font-weight:600;
-    color:var(--ink-soft); text-align:left;
-  }
-  .check input{
-    appearance:none; -webkit-appearance:none;
-    min-width:20px; width:20px;height:20px;
-    margin-top:1px; border-radius:7px;
-    border:1.5px solid rgba(255,255,255,.95);
-    background:rgba(255,255,255,.65); cursor:pointer;
-    transition:.2s; position:relative;
-    box-shadow:0 3px 8px rgba(200,60,20,.1);
-  }
-  .check input:checked{
-    background:linear-gradient(135deg, var(--yellow), var(--red));
-    border-color:transparent;
-  }
-  .check input:checked::after{
-    content:""; position:absolute; left:6.5px; top:2.5px;
-    width:5px; height:10px; border:solid #fff;
-    border-width:0 2.5px 2.5px 0; transform:rotate(45deg);
+  .file-name-info{
+    margin-top:12px; font-weight:700; color:#1a7f37; font-size:.88rem;
+    word-break:break-all;
   }
 
   .submit-wrap{margin-top:38px;text-align:center}
@@ -308,16 +288,7 @@
     overflow:hidden;
     text-shadow:0 1px 3px rgba(140,30,0,.32);
   }
-  .submit-btn::after{
-    content:""; position:absolute; top:0; left:-120%;
-    width:60%; height:100%;
-    background:linear-gradient(100deg, transparent, rgba(255,255,255,.6), transparent);
-    transform:skewX(-22deg);
-    animation:shine 3.4s infinite;
-  }
-  @keyframes shine{0%{left:-120%}55%{left:140%}100%{left:140%}}
   .submit-btn:hover{transform:translateY(-3px); box-shadow:0 24px 52px rgba(255,80,20,.6)}
-  .submit-btn:active{transform:translateY(0) scale(.99)}
   .submit-btn:disabled{opacity:.75; cursor:not-allowed; transform:none}
 
   .required-note{
@@ -325,7 +296,6 @@
     color:var(--ink-mute); margin-top:16px;
   }
 
-  /* Loading spinner inside button */
   .spinner{
     width:18px;height:18px;
     border:2.5px solid rgba(255,255,255,.4);
@@ -363,32 +333,19 @@
     border-radius:50%; display:flex; align-items:center; justify-content:center;
     background:linear-gradient(135deg, rgba(255,196,0,.35), rgba(255,59,48,.35));
     border:2px solid rgba(255,255,255,.9);
-    animation:glowRing 2s ease-in-out infinite;
     box-shadow:0 12px 30px rgba(255,90,20,.28);
-  }
-  @keyframes glowRing{
-    0%,100%{box-shadow:0 12px 30px rgba(255,90,20,.28), 0 0 0 0 rgba(255,138,30,.4)}
-    50%{box-shadow:0 12px 30px rgba(255,90,20,.28), 0 0 0 18px rgba(255,138,30,0)}
   }
   .check-circle svg{
     width:46px;height:46px; stroke:#e01b12; stroke-width:4;
     fill:none; stroke-linecap:round; stroke-linejoin:round;
   }
-  .check-circle svg path{
-    stroke-dasharray:60; stroke-dashoffset:60;
-    animation:draw .7s .25s ease forwards;
-  }
-  @keyframes draw{to{stroke-dashoffset:0}}
 
   .modal h2{
     font-size:1.4rem; font-weight:900; margin-bottom:16px;
     background:linear-gradient(100deg,#ffb300, #ff4d1a 60%, #c81e1e);
     -webkit-background-clip:text; background-clip:text; color:transparent;
   }
-  .modal p{
-    color:var(--ink-soft); font-size:1rem;
-    line-height:1.75; font-weight:500;
-  }
+  .modal p{color:var(--ink-soft); font-size:1rem; line-height:1.75; font-weight:500;}
   .modal p .hl{color:#c81e1e;font-weight:800}
 
   .modal .close-btn{
@@ -399,18 +356,12 @@
     font-size:.9rem; letter-spacing:.08em; text-transform:uppercase;
     cursor:pointer; transition:.2s;
     box-shadow:0 12px 28px rgba(255,80,20,.4);
-    text-shadow:0 1px 2px rgba(140,30,0,.28);
   }
-  .modal .close-btn:hover{transform:translateY(-2px); box-shadow:0 16px 34px rgba(255,80,20,.55)}
 
   @media (max-width:720px){
     .wrap{padding:34px 13px 70px}
     .card{padding:28px 18px 32px;border-radius:20px}
-    .grid-2, .grid-3{grid-template-columns:1fr;gap:0}
-    .bg .rig{opacity:.28;width:80vw}
-    .bg .rig.left{display:none}
-    .gear{opacity:.20}
-    .pill span{padding:9px 16px;font-size:.83rem}
+    .grid-2{grid-template-columns:1fr;gap:0}
     .hero h1{font-size:1.4rem}
   }
 </style>
@@ -419,59 +370,6 @@
 
 <div class="bg">
   <div class="grid"></div>
-
-  <svg class="gear g1" viewBox="0 0 100 100" fill="none" stroke-width="3">
-    <circle cx="50" cy="50" r="30"/><circle cx="50" cy="50" r="12"/>
-    <g stroke-width="8" stroke-linecap="round">
-      <line x1="50" y1="6" x2="50" y2="20"/><line x1="50" y1="80" x2="50" y2="94"/>
-      <line x1="6" y1="50" x2="20" y2="50"/><line x1="80" y1="50" x2="94" y2="50"/>
-      <line x1="19" y1="19" x2="29" y2="29"/><line x1="71" y1="71" x2="81" y2="81"/>
-      <line x1="81" y1="19" x2="71" y2="29"/><line x1="29" y1="71" x2="19" y2="81"/>
-    </g>
-  </svg>
-  <svg class="gear g2" viewBox="0 0 100 100" fill="none" stroke-width="3">
-    <circle cx="50" cy="50" r="30"/><circle cx="50" cy="50" r="12"/>
-    <g stroke-width="8" stroke-linecap="round">
-      <line x1="50" y1="6" x2="50" y2="20"/><line x1="50" y1="80" x2="50" y2="94"/>
-      <line x1="6" y1="50" x2="20" y2="50"/><line x1="80" y1="50" x2="94" y2="50"/>
-      <line x1="19" y1="19" x2="29" y2="29"/><line x1="71" y1="71" x2="81" y2="81"/>
-      <line x1="81" y1="19" x2="71" y2="29"/><line x1="29" y1="71" x2="19" y2="81"/>
-    </g>
-  </svg>
-  <svg class="gear g3" viewBox="0 0 100 100" fill="none" stroke-width="3">
-    <circle cx="50" cy="50" r="30"/><circle cx="50" cy="50" r="12"/>
-    <g stroke-width="8" stroke-linecap="round">
-      <line x1="50" y1="6" x2="50" y2="20"/><line x1="50" y1="80" x2="50" y2="94"/>
-      <line x1="6" y1="50" x2="20" y2="50"/><line x1="80" y1="50" x2="94" y2="50"/>
-    </g>
-  </svg>
-
-  <svg class="rig" viewBox="0 0 200 300" fill="none">
-    <g stroke="rgba(190,60,20,.55)" stroke-width="2" stroke-linecap="round">
-      <line x1="100" y1="18" x2="40" y2="292"/><line x1="100" y1="18" x2="160" y2="292"/>
-      <line x1="48.9" y1="250" x2="151.1" y2="250"/><line x1="57.8" y1="210" x2="142.2" y2="210"/>
-      <line x1="66.7" y1="170" x2="133.3" y2="170"/><line x1="75.6" y1="130" x2="124.4" y2="130"/>
-      <line x1="84.4" y1="90" x2="115.6" y2="90"/><line x1="93.3" y1="50" x2="106.7" y2="50"/>
-      <line x1="48.9" y1="250" x2="142.2" y2="210"/><line x1="142.2" y1="210" x2="66.7" y2="170"/>
-      <line x1="66.7" y1="170" x2="124.4" y2="130"/><line x1="124.4" y1="130" x2="84.4" y2="90"/>
-      <line x1="84.4" y1="90" x2="106.7" y2="50"/><line x1="151.1" y1="250" x2="57.8" y2="210"/>
-      <line x1="57.8" y1="210" x2="133.3" y2="170"/><line x1="133.3" y1="170" x2="75.6" y2="130"/>
-      <line x1="75.6" y1="130" x2="115.6" y2="90"/><line x1="115.6" y1="90" x2="93.3" y2="50"/>
-      <line x1="30" y1="292" x2="170" y2="292"/>
-      <circle cx="100" cy="18" r="4" fill="rgba(200,30,30,.85)" stroke="none"/>
-    </g>
-  </svg>
-  <svg class="rig left" viewBox="0 0 200 300" fill="none">
-    <g stroke="rgba(200,90,10,.55)" stroke-width="2.5" stroke-linecap="round">
-      <line x1="100" y1="30" x2="42" y2="290"/><line x1="100" y1="30" x2="158" y2="290"/>
-      <line x1="52" y1="245" x2="148" y2="245"/><line x1="62" y1="200" x2="138" y2="200"/>
-      <line x1="72" y1="155" x2="128" y2="155"/><line x1="82" y1="110" x2="118" y2="110"/>
-      <line x1="52" y1="245" x2="138" y2="200"/><line x1="138" y1="200" x2="72" y2="155"/>
-      <line x1="72" y1="155" x2="118" y2="110"/><line x1="148" y1="245" x2="62" y2="200"/>
-      <line x1="62" y1="200" x2="128" y2="155"/><line x1="128" y1="155" x2="82" y2="110"/>
-      <line x1="32" y1="290" x2="168" y2="290"/>
-    </g>
-  </svg>
 </div>
 
 <div class="wrap">
@@ -632,24 +530,25 @@
         <span class="err"></span>
       </div>
 
+      <!-- SECTION UPLOAD CV BARU -->
       <div class="section-title">Document Submission</div>
 
       <div class="field" data-field="cv">
         <label class="lbl">Upload CV <span class="req">*</span></label>
         <div class="drive-box">
           <p class="hint" style="margin:0 0 15px;font-size:.85rem;color:var(--ink-soft);font-weight:600">
-            Silakan upload file <strong>CV &amp; Resume</strong> Anda (format PDF, maks. 5 MB) ke folder Google Drive berikut:
+            Pilih file <strong>CV &amp; Resume</strong> Anda (format PDF, maks. 5 MB):
           </p>
-          <a class="drive-btn"
-             href="https://drive.google.com/drive/folders/1EGhl9Burh8s2uB5E88Zz6zQyq5KA46Ev?usp=drive_link"
-             target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24"><path d="M7.71 3.5 1.15 15l3.43 6 6.56-11.5L7.71 3.5zm1.2-.5L15.5 14.5h7.35L16.29 3.5H8.91zM22.85 16 19.42 22H5.58l3.43-6h13.84z"/></svg>
-            Upload CV ke Google Drive
-          </a>
-          <label class="check">
-            <input type="checkbox" id="cvConfirm" name="cvConfirm" value="Yes">
-            <span>I have uploaded my CV &amp; Resume to the Google Drive folder above.</span>
-          </label>
+          
+          <!-- Hidden Native File Input -->
+          <input type="file" id="cvFileInput" accept="application/pdf,.pdf" style="display:none;">
+          
+          <button type="button" class="drive-btn" id="uploadTriggerBtn">
+            <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/></svg>
+            Pilih File CV
+          </button>
+          
+          <div class="file-name-info" id="fileNameDisplay"></div>
         </div>
         <span class="err"></span>
       </div>
@@ -681,46 +580,38 @@
   </div>
 </div>
 
-<div style="text-align:center;margin-top:14px;">
-  <button type="button" id="testBtn" style="padding:8px 20px;border-radius:10px;border:1px dashed #c81e1e;background:rgba(255,255,255,.5);color:#c81e1e;font-weight:700;cursor:pointer;font-size:.78rem;">
-    🔍 Test Koneksi ke Google Sheet
-  </button>
-  <div id="testResult" style="margin-top:10px;font-size:.82rem;font-weight:600;"></div>
-</div>
-  
 <script>
 (function(){
   "use strict";
 
-  // ==================================================================
-  // >>> GANTI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA <<<
-  // ==================================================================
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwjfQfcPXRG6T5xHCrTXycHoBtVYOhginPFap4nyRBnP2yLruVxU4P0LWTwi1eo0Edc/exec';
+  // URL Google Apps Script Web App
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby9_ITqthl_qlD84y4uCOMXvv4njHD2oEqkLMtOYRuD8sEg2QVOP9CM_dCesFK8zFmb/exec';
 
   const form = document.getElementById('recruitForm');
   const overlay = document.getElementById('overlay');
   const submitBtn = document.getElementById('submitBtn');
   const btnText = document.getElementById('btnText');
-
-    /* ---------- Test koneksi ---------- */
-  document.getElementById('testBtn').addEventListener('click', function(){
-    const res = document.getElementById('testResult');
-    res.style.color = '#8a7565';
-    res.textContent = 'Menguji...';
-
-    fetch(SCRIPT_URL, { method: 'GET', mode: 'no-cors' })
-      .then(function(){
-        res.style.color = '#1a7f37';
-        res.innerHTML = '✅ Endpoint bisa diakses. Kalau data tetap tidak masuk, ' +
-          '<a href="' + SCRIPT_URL + '" target="_blank" style="color:#c81e1e;">buka URL ini</a> ' +
-          'untuk lihat jumlah data terakhir.';
-      })
-      .catch(function(){
-        res.style.color = '#c81e1e';
-        res.textContent = '❌ Endpoint tidak bisa diakses. Cek deployment URL & access = Anyone.';
-      });
-  });
   
+  const uploadTriggerBtn = document.getElementById('uploadTriggerBtn');
+  const cvFileInput = document.getElementById('cvFileInput');
+  const fileNameDisplay = document.getElementById('fileNameDisplay');
+
+  // Trigger file chooser saat tombol diklik
+  uploadTriggerBtn.addEventListener('click', function(){
+    cvFileInput.click();
+  });
+
+  // Tampilkan nama file ketika file dipilih
+  cvFileInput.addEventListener('change', function(){
+    if(this.files && this.files[0]){
+      fileNameDisplay.textContent = '📄 Selected File: ' + this.files[0].name;
+      const f = fieldOf(cvFileInput);
+      if(f) f.classList.remove('invalid');
+    } else {
+      fileNameDisplay.textContent = '';
+    }
+  });
+
   function fieldOf(el){ return el.closest('.field'); }
 
   function markInvalid(fieldEl, msg){
@@ -760,7 +651,7 @@
   bindOther('edu', 'eduOther');
   bindOther('lift', 'liftOther');
 
-  /* ---------- Salary auto-format ---------- */
+  // Format Salary
   const salary = document.getElementById('salary');
   salary.addEventListener('input', function(){
     let digits = salary.value.replace(/[^0-9]/g, '');
@@ -772,7 +663,7 @@
     salary.value = 'Rp ' + digits.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   });
 
-  /* ---------- Validation ---------- */
+  // Validasi Form
   function validate(){
     clearErrors();
     let ok = true;
@@ -806,8 +697,6 @@
     const dob = document.getElementById('dob');
     if(!dob.value){
       markInvalid(fieldOf(dob), 'Tanggal lahir wajib diisi.'); ok = false;
-    } else if(new Date(dob.value) > new Date()){
-      markInvalid(fieldOf(dob), 'Tanggal lahir tidak boleh di masa depan.'); ok = false;
     }
 
     const pob = document.getElementById('pob');
@@ -858,18 +747,35 @@
       markInvalid(fieldOf(salary), 'Expected salary wajib diisi.'); ok = false;
     }
 
-    const cvConfirm = document.getElementById('cvConfirm');
-    if(!cvConfirm.checked){
-      markInvalid(document.querySelector('[data-field="cv"]'), 'Konfirmasi upload CV wajib dicentang.'); ok = false;
+    // Validasi file CV
+    if(!cvFileInput.files || cvFileInput.files.length === 0){
+      markInvalid(fieldOf(cvFileInput), 'File CV wajib diupload.'); ok = false;
+    } else {
+      const file = cvFileInput.files[0];
+      if(file.size > 5 * 1024 * 1024){
+        markInvalid(fieldOf(cvFileInput), 'Ukuran file maksimal 5 MB.'); ok = false;
+      }
     }
 
     return ok;
   }
 
-     /* ---------- Submit handler (fetch no-cors ke Apps Script) ---------- */
+  // Fungsi konversi file ke Base64
+  function readFileAsBase64(file){
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64 = reader.result.split(',')[1];
+        resolve(base64);
+      };
+      reader.onerror = error => reject(error);
+      reader.readAsDataURL(file);
+    });
+  }
+
   let isSubmitting = false;
 
-  form.addEventListener('submit', function(e){
+  form.addEventListener('submit', async function(e){
     e.preventDefault();
     if(isSubmitting) return;
 
@@ -877,42 +783,45 @@
       const firstInvalid = document.querySelector('.field.invalid');
       if(firstInvalid){
         firstInvalid.scrollIntoView({behavior:'smooth', block:'center'});
-        const focusable = firstInvalid.querySelector('input, select, textarea');
-        if(focusable) setTimeout(function(){ focusable.focus({preventScroll:true}); }, 350);
       }
       return;
     }
 
-    // Loading
     isSubmitting = true;
     submitBtn.disabled = true;
-    btnText.innerHTML = '<span class="spinner"></span> Sending...';
+    btnText.innerHTML = '<span class="spinner"></span> Uploading & Sending...';
 
-    // Kumpulkan data
-    const formData = new FormData(form);
-    const params = new URLSearchParams();
-    for (const [key, value] of formData.entries()) {
-      params.append(key, value);
-    }
+    try {
+      const file = cvFileInput.files[0];
+      const fileBase64 = await readFileAsBase64(file);
 
-    // Kirim ke Google Apps Script
-    fetch(SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-      body: params.toString()
-    })
-    .then(function(){
-      // mode no-cors tidak bisa baca response, anggap sukses
+      const formData = new FormData(form);
+      const params = new URLSearchParams();
+
+      for (const [key, value] of formData.entries()) {
+        params.append(key, value);
+      }
+
+      // Lampirkan data file CV ke parameter request
+      params.append('cvBase64', fileBase64);
+      params.append('cvFileName', file.name);
+      params.append('cvMimeType', file.type || 'application/pdf');
+
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        body: params.toString()
+      });
+
       finishSubmit();
-    })
-    .catch(function(err){
+    } catch(err) {
       console.error('Submit error:', err);
       isSubmitting = false;
       submitBtn.disabled = false;
       btnText.textContent = 'Submit Application';
-      alert('Gagal mengirim data. Cek koneksi internet & coba lagi.');
-    });
+      alert('Gagal mengirim data & CV. Pastikan koneksi internet stabil.');
+    }
   });
 
   function finishSubmit(){
@@ -922,25 +831,15 @@
     overlay.classList.add('show');
     document.body.style.overflow = 'hidden';
     form.reset();
-    // Reset "Other" inputs
+    fileNameDisplay.textContent = '';
     document.getElementById('eduOther').hidden = true;
     document.getElementById('liftOther').hidden = true;
   }
 
-  /* ---------- Modal close ---------- */
   window.closeModal = function(){
     overlay.classList.remove('show');
     document.body.style.overflow = '';
   };
-
-  overlay.addEventListener('click', function(e){
-    if(e.target === overlay) window.closeModal();
-  });
-
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape' && overlay.classList.contains('show')) window.closeModal();
-  });
-
 })();
 </script>
 </body>
