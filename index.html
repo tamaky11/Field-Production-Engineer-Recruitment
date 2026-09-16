@@ -695,31 +695,33 @@
   // ==================================================================
   // >>> GANTI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA <<<
   // ==================================================================
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz3YtbqlfTUTVQ2Vkt4xKlk3rF38HcGh5MTLzt6ywH9-8-fJGiIzzQBVsR2o5oQ3mda/exec';
+  // Ganti URL_WEB_APP_ANDA dengan URL yang Anda copy dari Langkah 2
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzCuZe6H6aEbZs15M4UG3v9tZ7lBlQq0g9KGPHXStamoE4RDl3gpJgPXDvwVE5pl3Gg/exec';
+    
+    // Ubah teks tombol menjadi loading (opsional)
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = 'Submitting...';
+    btn.disabled = true;
 
-  const form = document.getElementById('recruitForm');
-  const overlay = document.getElementById('overlay');
-  const submitBtn = document.getElementById('submitBtn');
-  const btnText = document.getElementById('btnText');
-
-    /* ---------- Test koneksi ---------- */
-  document.getElementById('testBtn').addEventListener('click', function(){
-    const res = document.getElementById('testResult');
-    res.style.color = '#8a7565';
-    res.textContent = 'Menguji...';
-
-    fetch(SCRIPT_URL, { method: 'GET', mode: 'no-cors' })
-      .then(function(){
-        res.style.color = '#1a7f37';
-        res.innerHTML = '✅ Endpoint bisa diakses. Kalau data tetap tidak masuk, ' +
-          '<a href="' + SCRIPT_URL + '" target="_blank" style="color:#c81e1e;">buka URL ini</a> ' +
-          'untuk lihat jumlah data terakhir.';
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response => {
+        // Tampilkan modal sukses
+        overlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        
+        // Kembalikan tombol ke semula
+        btn.textContent = 'Submit Application';
+        btn.disabled = false;
+        
+        // Reset form setelah sukses (opsional)
+        form.reset();
       })
-      .catch(function(){
-        res.style.color = '#c81e1e';
-        res.textContent = '❌ Endpoint tidak bisa diakses. Cek deployment URL & access = Anyone.';
+      .catch(error => {
+        console.error('Error!', error.message);
+        alert('Terjadi kesalahan saat mengirim data. Silakan coba lagi.');
+        btn.textContent = 'Submit Application';
+        btn.disabled = false;
       });
-  });
   
   function fieldOf(el){ return el.closest('.field'); }
 
